@@ -7,6 +7,7 @@ const Ahorcado = () => {
     const [currentWordArray, setCurrentWordArray] = useState([]);
     const [revealedLetters, setRevealedLetters] = useState([]);
     const [inputValue, setInputValue] = useState('');
+    const [incorrect, setIncorrect] = useState(0);
 
     useEffect(() => {
         initComponent()
@@ -59,6 +60,10 @@ const Ahorcado = () => {
         const newLetter = inputValue.toUpperCase();
         if (!revealedLetters.includes(newLetter)) {
             setRevealedLetters(prevRevealedLetters => [...prevRevealedLetters, newLetter]);
+            //TODO: Incorrect management
+            if (!currentWord.includes(newLetter)) {
+                setIncorrect(incorrect + 1);
+            }
         }
         setInputValue('');
     };
@@ -93,6 +98,7 @@ const Ahorcado = () => {
                 <p>currentWord: {currentWord}</p>
                 <p>currentWordArray: {currentWordArray}</p>
                 <p>revealedLetters: {revealedLetters}</p>
+                <p>incorrect: {incorrect}</p>
             </div>
         </div>
     );
