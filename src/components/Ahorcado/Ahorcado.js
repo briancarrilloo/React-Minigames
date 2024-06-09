@@ -3,7 +3,7 @@ import './Ahorcado.css';
 import wordDatabase from "./wordDatabase.json";
 
 const Ahorcado = () => {
-    const [currentWord, setCurrentWord] = useState(getRandomWord());
+    const [currentWord, setCurrentWord] = useState('');
     const [currentWordArray, setCurrentWordArray] = useState([]);
     const [revealedLetters, setRevealedLetters] = useState([]);
     const [inputValue, setInputValue] = useState('');
@@ -15,7 +15,22 @@ const Ahorcado = () => {
     function initComponent() {
         const randomWord = getRandomWord();
         setCurrentWord(randomWord);
-        setCurrentWordArray(randomWord.split(''));
+        refreshWordArray(randomWord);
+        setRevealedLetters([]);
+    }
+
+    function refreshWordArray(word) {
+        const wordArray = word.split('');
+        let secretWordArray = [];
+
+        wordArray.forEach(letter => {
+            if (revealedLetters.includes(letter)) {
+                secretWordArray.push(letter);
+            } else {
+                secretWordArray.push('_');
+            }
+        });
+        setCurrentWordArray(secretWordArray);
     }
 
     function getRandomWord() {
@@ -41,12 +56,16 @@ const Ahorcado = () => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        const newLetter = inputValue.toLowerCase();
+        const newLetter = inputValue.toUpperCase();
         if (!revealedLetters.includes(newLetter)) {
-            setRevealedLetters([...revealedLetters, newLetter]);
+            setRevealedLetters(prevRevealedLetters => [...prevRevealedLetters, newLetter]);
         }
         setInputValue('');
     };
+
+    useEffect(() => {
+        refreshWordArray(currentWord);
+    }, [revealedLetters, currentWord]);
 
     return (
         <div className="ahorcado-container">
@@ -62,9 +81,12 @@ const Ahorcado = () => {
                     placeholder="Ingrese una letra" />
                 <button type="submit">Enviar</button>
             </form>
+
+            {/* debug */}
             <div className='debug'>
                 <p> - - - - Debug - - - - </p>
                 <p>currentWord: {currentWord}</p>
+                <p>currentWordArray: {currentWordArray}</p>
                 <p>revealedLetters: {revealedLetters}</p>
             </div>
         </div>
