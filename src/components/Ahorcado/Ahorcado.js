@@ -54,7 +54,7 @@ const Ahorcado = () => {
         if (!isLetter(input)) {
             return;
         }
-        setInputValue(input);
+        setInputValue(input.toUpperCase());
     }
 
     function isLetter(string) {
@@ -93,6 +93,8 @@ const Ahorcado = () => {
                 return <img src={fourIncorrect} alt="Imagen del juego del ahorcado" />
             case 5:
                 return <img src={fiveIncorrect} alt="Imagen del juego del ahorcado" />
+            default:
+                return <img src={fiveIncorrect} alt="Imagen del juego del ahorcado" />
         }
     }
 
@@ -116,6 +118,7 @@ const Ahorcado = () => {
                     <button type="submit">Enviar</button>
                 </div>
             </form>
+            <p>Letras intentadas: {revealedLetters}</p>
 
             {/* debug */}
             <div className='ahorcado-debug'>
