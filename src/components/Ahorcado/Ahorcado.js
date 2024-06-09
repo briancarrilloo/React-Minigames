@@ -39,7 +39,7 @@ const Ahorcado = () => {
         return /^[a-zA-Z]*$/.test(string);
     }
 
-    const handleSubmit = (event) => {
+    function handleSubmit(event) {
         event.preventDefault();
         const newLetter = inputValue.toLowerCase();
         if (!revealedLetters.includes(newLetter)) {
