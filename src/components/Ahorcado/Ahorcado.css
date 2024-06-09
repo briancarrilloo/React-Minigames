@@ -1,2 +1,9 @@
-.ahorcado-container{
+.ahorcado-container {
+    padding: 20px;
+}
+
+.debug {
+    background-color: black;
+    color: greenyellow;
+    font-family: 'Courier New', Courier, monospace;
 }
