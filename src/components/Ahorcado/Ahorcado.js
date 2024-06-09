@@ -70,20 +70,25 @@ const Ahorcado = () => {
     return (
         <div className="ahorcado-container">
             <h1>El juego del ahorcado</h1>
-            {currentWordArray.map((letter, index) => (
-                <p key={index}>{index} - {letter}</p>
-            ))}
+            <div className="ahorcado-letras">
+                {currentWordArray.map((letter, index) => (
+                    <p key={index}>{letter}</p>
+                ))}
+            </div>
             <form onSubmit={handleSubmit}>
-                <input
-                    type='text'
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    placeholder="Ingrese una letra" />
-                <button type="submit">Enviar</button>
+                <div className="ahorcado-input">
+                    <input
+                        type='text'
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        placeholder="Ingrese una letra"
+                    />
+                    <button type="submit">Enviar</button>
+                </div>
             </form>
 
             {/* debug */}
-            <div className='debug'>
+            <div className='ahorcado-debug'>
                 <p> - - - - Debug - - - - </p>
                 <p>currentWord: {currentWord}</p>
                 <p>currentWordArray: {currentWordArray}</p>
