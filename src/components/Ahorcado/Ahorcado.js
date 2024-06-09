@@ -1,6 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Ahorcado.css';
 import wordDatabase from "./wordDatabase.json";
+import zeroIncorrect from "./img/0.png"
+import oneIncorrect from "./img/1.png"
+import twoIncorrect from "./img/2.png"
+import threeIncorrect from "./img/3.png"
+import fourIncorrect from "./img/4.png"
+import fiveIncorrect from "./img/5.png"
 
 const Ahorcado = () => {
     const [currentWord, setCurrentWord] = useState('');
@@ -72,9 +78,28 @@ const Ahorcado = () => {
         refreshWordArray(currentWord);
     }, [revealedLetters, currentWord]);
 
+    function renderImage() {
+        console.log('Render' + incorrect);
+        switch (incorrect) {
+            case 0:
+                return <img src={zeroIncorrect} alt="Imagen del juego del ahorcado" />
+            case 1:
+                return <img src={oneIncorrect} alt="Imagen del juego del ahorcado" />
+            case 2:
+                return <img src={twoIncorrect} alt="Imagen del juego del ahorcado" />
+            case 3:
+                return <img src={threeIncorrect} alt="Imagen del juego del ahorcado" />
+            case 4:
+                return <img src={fourIncorrect} alt="Imagen del juego del ahorcado" />
+            case 5:
+                return <img src={fiveIncorrect} alt="Imagen del juego del ahorcado" />
+        }
+    }
+
     return (
         <div className="ahorcado-container">
             <h1>El juego del ahorcado</h1>
+            {renderImage()}
             <div className="ahorcado-letras">
                 {currentWordArray.map((letter, index) => (
                     <p key={index}>{letter}</p>
