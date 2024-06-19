@@ -8,7 +8,7 @@ import threeIncorrect from "./img/3.png"
 import fourIncorrect from "./img/4.png"
 import fiveIncorrect from "./img/5.png"
 
-const Ahorcado = () => {
+const Ahorcado = ({ selectGame }) => {
     const [currentWord, setCurrentWord] = useState('');
     const [currentWordArray, setCurrentWordArray] = useState([]);
     const [revealedLetters, setRevealedLetters] = useState([]);
@@ -82,7 +82,7 @@ const Ahorcado = () => {
     }, [revealedLetters, currentWord]);
 
     function renderImage() {
-        const imgAlt="Imagen del juego del ahorcado";
+        const imgAlt = "Imagen del juego del ahorcado";
         switch (incorrect) {
             case 0:
                 return <img src={zeroIncorrect} alt={imgAlt} />
@@ -104,6 +104,7 @@ const Ahorcado = () => {
     return (
         <div className="ahorcado-container">
             <h1>El juego del ahorcado</h1>
+            <button onClick={() => selectGame("")}>Quit</button>
             {renderImage()}
             <div className="ahorcado-letras">
                 {currentWordArray.map((letter, index) => (
