@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Ahorcado.css';
 import wordDatabase from "./wordDatabase.json";
 import zeroIncorrect from "./img/0.png"
@@ -58,6 +58,9 @@ const Ahorcado = () => {
     }
 
     function isLetter(string) {
+        if (string.toLowerCase() == "ñ") {
+            return true;
+        }
         return /^[a-zA-Z]*$/.test(string);
     }
 
@@ -79,22 +82,22 @@ const Ahorcado = () => {
     }, [revealedLetters, currentWord]);
 
     function renderImage() {
-        console.log('Render' + incorrect);
+        const imgAlt="Imagen del juego del ahorcado";
         switch (incorrect) {
             case 0:
-                return <img src={zeroIncorrect} alt="Imagen del juego del ahorcado" />
+                return <img src={zeroIncorrect} alt={imgAlt} />
             case 1:
-                return <img src={oneIncorrect} alt="Imagen del juego del ahorcado" />
+                return <img src={oneIncorrect} alt={imgAlt} />
             case 2:
-                return <img src={twoIncorrect} alt="Imagen del juego del ahorcado" />
+                return <img src={twoIncorrect} alt={imgAlt} />
             case 3:
-                return <img src={threeIncorrect} alt="Imagen del juego del ahorcado" />
+                return <img src={threeIncorrect} alt={imgAlt} />
             case 4:
-                return <img src={fourIncorrect} alt="Imagen del juego del ahorcado" />
+                return <img src={fourIncorrect} alt={imgAlt} />
             case 5:
-                return <img src={fiveIncorrect} alt="Imagen del juego del ahorcado" />
+                return <img src={fiveIncorrect} alt={imgAlt} />
             default:
-                return <img src={fiveIncorrect} alt="Imagen del juego del ahorcado" />
+                return <img src={fiveIncorrect} alt={imgAlt} />
         }
     }
 
@@ -121,13 +124,13 @@ const Ahorcado = () => {
             <p>Letras intentadas: {revealedLetters}</p>
 
             {/* debug */}
-            <div className='ahorcado-debug'>
+            {/* <div className='ahorcado-debug'>
                 <p> - - - - Debug - - - - </p>
                 <p>currentWord: {currentWord}</p>
                 <p>currentWordArray: {currentWordArray}</p>
                 <p>revealedLetters: {revealedLetters}</p>
                 <p>incorrect: {incorrect}</p>
-            </div>
+            </div> */}
         </div>
     );
 };
