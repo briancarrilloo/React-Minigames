@@ -14,7 +14,7 @@ const Ahorcado = ({ selectGame }) => {
     const [revealedLetters, setRevealedLetters] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [incorrect, setIncorrect] = useState(0);
-    const [gameFinished, setGameFinished] = useState('');
+    const [gameFinished, setGameFinished] = useState(false);
 
     useEffect(() => {
         initComponent()
@@ -25,6 +25,7 @@ const Ahorcado = ({ selectGame }) => {
         setCurrentWord(randomWord);
         refreshWordArray(randomWord);
         setRevealedLetters([]);
+        setGameFinished(false);
     }
 
     function refreshWordArray(word) {
@@ -94,8 +95,6 @@ const Ahorcado = ({ selectGame }) => {
         if (currentWord === null || currentWord === undefined || currentWord == '') {
             return;
         }
-        console.log('currentWord' + currentWord);
-        console.log('currentWordString' + currentWordString);
         if (currentWord == currentWordString) {
             alert('Has ganado!');
             setGameFinished(true);
@@ -136,15 +135,16 @@ const Ahorcado = ({ selectGame }) => {
                     <p key={index}>{letter}</p>
                 ))}
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
                 <div className="ahorcado-input">
                     <input
                         type='text'
                         value={inputValue}
                         onChange={handleInputChange}
                         placeholder="Ingrese una letra"
+                        disabled={gameFinished}
                     />
-                    <button class="btn btn-primary" type="submit">Enviar</button>
+                    <button class="btn btn-primary" type="submit" disabled={gameFinished}>Enviar</button>
                 </div>
             </form >
             <p>Letras intentadas: {revealedLetters}</p>
