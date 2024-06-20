@@ -69,13 +69,30 @@ const Ahorcado = ({ selectGame }) => {
         const newLetter = inputValue.toUpperCase();
         if (!revealedLetters.includes(newLetter)) {
             setRevealedLetters(prevRevealedLetters => [...prevRevealedLetters, newLetter]);
-            //TODO: Incorrect management
             if (!currentWord.includes(newLetter)) {
                 setIncorrect(incorrect + 1);
             }
         }
+
         setInputValue('');
     };
+
+    useEffect(() => {
+        CheckGameStatus();
+    }, [incorrect]);
+
+    function CheckGameStatus() {
+        // Losing
+        if (incorrect >= 5) {
+            alert('Has perdido...')
+        }
+
+        // Winning
+        const currentWordString = currentWordArray.concat();
+        if (currentWord == currentWordString) {
+            alert('Has ganado!')
+        }
+    }
 
     useEffect(() => {
         refreshWordArray(currentWord);
@@ -125,13 +142,13 @@ const Ahorcado = ({ selectGame }) => {
             <p>Letras intentadas: {revealedLetters}</p>
 
             {/* debug */}
-            {/* <div className='ahorcado-debug'>
+            <div className='ahorcado-debug'>
                 <p> - - - - Debug - - - - </p>
                 <p>currentWord: {currentWord}</p>
                 <p>currentWordArray: {currentWordArray}</p>
                 <p>revealedLetters: {revealedLetters}</p>
                 <p>incorrect: {incorrect}</p>
-            </div> */}
+            </div>
         </div>
     );
 };
