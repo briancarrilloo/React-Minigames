@@ -14,6 +14,7 @@ const Ahorcado = ({ selectGame }) => {
     const [revealedLetters, setRevealedLetters] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [incorrect, setIncorrect] = useState(0);
+    const [gameFinished, setGameFinished] = useState('');
 
     useEffect(() => {
         initComponent()
@@ -79,18 +80,25 @@ const Ahorcado = ({ selectGame }) => {
 
     useEffect(() => {
         CheckGameStatus();
-    }, [incorrect]);
+    }, [incorrect, currentWordArray]);
 
     function CheckGameStatus() {
         // Losing
         if (incorrect >= 5) {
-            alert('Has perdido...')
+            alert('Has perdido...');
+            setGameFinished(true);
         }
 
         // Winning
-        const currentWordString = currentWordArray.concat();
+        const currentWordString = currentWordArray.join('');
+        if (currentWord === null || currentWord === undefined || currentWord == '') {
+            return;
+        }
+        console.log('currentWord' + currentWord);
+        console.log('currentWordString' + currentWordString);
         if (currentWord == currentWordString) {
-            alert('Has ganado!')
+            alert('Has ganado!');
+            setGameFinished(true);
         }
     }
 
