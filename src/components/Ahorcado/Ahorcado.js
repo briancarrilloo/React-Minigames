@@ -136,9 +136,9 @@ const Ahorcado = ({ selectGame }) => {
                         onChange={handleInputChange}
                         placeholder="Ingrese una letra"
                     />
-                    <button type="submit">Enviar</button>
+                    <button class="btn btn-primary" type="submit">Enviar</button>
                 </div>
-            </form>
+            </form >
             <p>Letras intentadas: {revealedLetters}</p>
 
             {/* debug */}
@@ -149,7 +149,7 @@ const Ahorcado = ({ selectGame }) => {
                 <p>revealedLetters: {revealedLetters}</p>
                 <p>incorrect: {incorrect}</p>
             </div>
-        </div>
+        </div >
     );
 };
 
