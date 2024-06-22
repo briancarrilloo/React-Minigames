@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import Ahorcado from "./components/Ahorcado/Ahorcado.js";
 import GameSelector from "./components/GameSelector/GameSelector.js";

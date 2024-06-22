@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { BsArrowLeft } from 'react-icons/bs';
 import './Ahorcado.css';
 import wordDatabase from "./wordDatabase.json";
 import zeroIncorrect from "./img/0.png"
@@ -128,15 +129,19 @@ const Ahorcado = ({ selectGame }) => {
 
     return (
         <div className="container ahorcado-container">
-            <h1>El juego del ahorcado</h1>
-            <Link to={"/"}>Quit</Link>
+            <div className="header">
+                <Link to={"/"} className="btn btn-dark quit-button d-flex align-items-center">
+                    <BsArrowLeft className="arrow-icon" />
+                </Link>
+                <h1>El juego del ahorcado</h1>
+            </div>
             {renderImage()}
             <div className="ahorcado-letras">
                 {currentWordArray.map((letter, index) => (
                     <p key={index}>{letter}</p>
                 ))}
             </div>
-            <form onSubmit={handleSubmit} >
+            <form onSubmit={handleSubmit}>
                 <div className="ahorcado-input">
                     <input
                         type='text'
@@ -145,9 +150,9 @@ const Ahorcado = ({ selectGame }) => {
                         placeholder="Ingrese una letra"
                         disabled={gameFinished}
                     />
-                    <button class="btn btn-primary" type="submit" disabled={gameFinished}>Enviar</button>
+                    <button className="btn btn-primary" type="submit" disabled={gameFinished}>Enviar</button>
                 </div>
-            </form >
+            </form>
             <p>Letras intentadas: {revealedLetters}</p>
 
             {/* debug */}
@@ -158,7 +163,8 @@ const Ahorcado = ({ selectGame }) => {
                 <p>revealedLetters: {revealedLetters}</p>
                 <p>incorrect: {incorrect}</p>
             </div> */}
-        </div >
+        </div>
+
     );
 };
 
