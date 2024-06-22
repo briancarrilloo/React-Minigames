@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-import React, { useEffect, useState } from 'react';
 import './App.css';
 import Ahorcado from "./components/Ahorcado/Ahorcado.js";
 import GameSelector from "./components/GameSelector/GameSelector.js";
@@ -13,7 +11,8 @@ const RouteMap = [
   {
     "path": "/ahorcado",
     "component": <Ahorcado />
-  }];
+  }
+];
 
 function App() {
   return (
