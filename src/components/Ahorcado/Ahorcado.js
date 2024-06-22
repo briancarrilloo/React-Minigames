@@ -126,7 +126,7 @@ const Ahorcado = ({ selectGame }) => {
     }
 
     return (
-        <div className="ahorcado-container">
+        <div className="container ahorcado-container">
             <h1>El juego del ahorcado</h1>
             <button onClick={() => selectGame("")}>Quit</button>
             {renderImage()}
@@ -150,13 +150,13 @@ const Ahorcado = ({ selectGame }) => {
             <p>Letras intentadas: {revealedLetters}</p>
 
             {/* debug */}
-            <div className='ahorcado-debug'>
+            {/* <div className='ahorcado-debug'>
                 <p> - - - - Debug - - - - </p>
                 <p>currentWord: {currentWord}</p>
                 <p>currentWordArray: {currentWordArray}</p>
                 <p>revealedLetters: {revealedLetters}</p>
                 <p>incorrect: {incorrect}</p>
-            </div>
+            </div> */}
         </div >
     );
 };
