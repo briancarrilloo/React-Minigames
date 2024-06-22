@@ -5,24 +5,20 @@
     text-align: center;
 }
 
-.ahorcado-container h1 {
-    margin: 0;
-}
-
-.header {
+.container-header {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.header .quit-button {
+.container-header .quit-button {
     margin-right: 20px;
-    /* Ajusta el espacio entre el botón "Quit" y el título */
 }
 
 .ahorcado-container h1 {
     font-size: 24px;
+    margin: 0;
 }
 
 .ahorcado-letras {

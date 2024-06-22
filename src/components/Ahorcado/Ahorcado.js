@@ -129,7 +129,7 @@ const Ahorcado = ({ selectGame }) => {
 
     return (
         <div className="container ahorcado-container">
-            <div className="header">
+            <div className="container-header">
                 <Link to={"/"} className="btn btn-dark quit-button d-flex align-items-center">
                     <BsArrowLeft className="arrow-icon" />
                 </Link>
