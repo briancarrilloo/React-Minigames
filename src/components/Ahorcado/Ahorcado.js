@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Ahorcado.css';
 import wordDatabase from "./wordDatabase.json";
 import zeroIncorrect from "./img/0.png"
@@ -128,7 +129,7 @@ const Ahorcado = ({ selectGame }) => {
     return (
         <div className="container ahorcado-container">
             <h1>El juego del ahorcado</h1>
-            <button onClick={() => selectGame("")}>Quit</button>
+            <Link to={"/"}>Quit</Link>
             {renderImage()}
             <div className="ahorcado-letras">
                 {currentWordArray.map((letter, index) => (

@@ -3,26 +3,26 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Ahorcado from "./components/Ahorcado/Ahorcado.js";
 import GameSelector from "./components/GameSelector/GameSelector.js";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+const RouteMap = [
+  {
+    "path": "",
+    "component": <GameSelector />
+  },
+  {
+    "path": "/ahorcado",
+    "component": <Ahorcado />
+  }];
 
 function App() {
-  const [selectedGame, setSelectedGame] = useState('');
-
-  const selectGame = (newGame) => {
-    setSelectedGame(newGame);
-  }
-
-  function renderMinigame() {
-    switch (selectedGame) {
-      case "Ahorcado":
-        return <Ahorcado selectGame={selectGame} />;
-      default:
-        return <GameSelector selectGame={selectGame} />;
-    }
-  }
-
   return (
     <div className="App">
-      {renderMinigame()}
+      <Router>
+        <Routes>
+          {RouteMap.map((x, index) => (<Route key={index} path={x.path} element={React.cloneElement(x.component)} />))}
+        </Routes>
+      </Router>
     </div>
   );
 }
