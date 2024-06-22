@@ -1,6 +1,6 @@
 import React from 'react';
 import './GameSelector.css'
-import '../Library/CSSLibrary.css'
+import '../Library/Container.css'
 import AhorcadoLogo from '../Ahorcado/img/Logo.jpg';
 import { Link } from 'react-router-dom';
 

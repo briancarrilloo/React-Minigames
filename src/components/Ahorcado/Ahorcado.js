@@ -10,7 +10,7 @@ import threeIncorrect from "./img/3.png"
 import fourIncorrect from "./img/4.png"
 import fiveIncorrect from "./img/5.png"
 
-const Ahorcado = ({ selectGame }) => {
+const Ahorcado = () => {
     const [currentWord, setCurrentWord] = useState('');
     const [currentWordArray, setCurrentWordArray] = useState([]);
     const [revealedLetters, setRevealedLetters] = useState([]);
