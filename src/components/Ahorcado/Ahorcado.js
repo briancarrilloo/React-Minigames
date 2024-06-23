@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BsArrowLeft } from 'react-icons/bs';
+import { BsArrowLeft, BsArrowRepeat } from 'react-icons/bs';
 import WinLose from '../WinLose/WinLose';
 import './Ahorcado.css';
 import wordDatabase from "./wordDatabase.json";
@@ -130,9 +130,12 @@ const Ahorcado = () => {
         <div className="container ahorcado-container">
             {gameFinished && <WinLose isWin={incorrect < 5} winMessage={winMessage} loseMessage={loseMessage} restartGame={initComponent} />}
             <div className="container-header">
-                <Link to={"/"} className="btn btn-dark quit-button d-flex align-items-center">
+                <Link to={"/"} className="btn button btn-dark d-flex align-items-center">
                     <BsArrowLeft className="arrow-icon" />
                 </Link>
+                <button className="btn btn-dark last-button d-flex align-items-center" onClick={initComponent}>
+                    <BsArrowRepeat className="refresh-icon" />
+                </button>
                 <h1>El juego del ahorcado</h1>
             </div>
             {renderImage()}
@@ -156,14 +159,14 @@ const Ahorcado = () => {
             <p>Letras intentadas: {revealedLetters.join(', ')}</p>
 
             {/* debug */}
-            <div className='ahorcado-debug'>
+            {/* <div className='ahorcado-debug'>
                 <p> - - - - Debug - - - - </p>
                 <p>currentWord: {currentWord}</p>
                 <p>currentWordArray: {currentWordArray.join('')}</p>
                 <p>revealedLetters: {revealedLetters.join(', ')}</p>
                 <p>incorrect: {incorrect}</p>
                 <p>gameFinished: {gameFinished ? "Yes" : "No"}</p>
-            </div>
+            </div> */}
         </div>
     );
 };

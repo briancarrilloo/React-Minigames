@@ -14,7 +14,11 @@
     margin-bottom: 20px;
 }
 
-.container-header .quit-button {
+.container-header .button {
+    margin-right: 10px;
+}
+
+.container-header .last-button {
     margin-right: 20px;
 }
 
