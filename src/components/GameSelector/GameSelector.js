@@ -9,6 +9,11 @@ const GameMap = [
         "name": "Ahorcado",
         "path": "/ahorcado",
         "logo": AhorcadoLogo
+    },
+    {
+        "name": "Sudoku",
+        "path": "/sudoku",
+        "logo": AhorcadoLogo
     }
 ];
 
@@ -22,7 +27,7 @@ const GameSelector = () => {
                         <div className="game-icon">
                             <img src={x.logo} alt={x.name} />
                         </div>
-                        <div>Ahorcado</div>
+                        <div>{x.name}</div>
                     </Link>
                 ))}
             </div>
