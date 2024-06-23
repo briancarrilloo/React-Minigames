@@ -1,0 +1,28 @@
+.container {
+    text-align: center;
+    padding: 20px;
+    background-color: #f0f4f8;
+    border-radius: 10px;
+    margin: 0 auto;
+    color: black;
+}
+
+.container-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.container-header .button {
+    margin-right: 10px;
+}
+
+.container-header .last-button {
+    margin-right: 20px;
+}
+
+.container-header h1 {
+    font-size: 24px;
+    margin: 0;
+}

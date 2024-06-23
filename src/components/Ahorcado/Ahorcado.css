@@ -1,0 +1,44 @@
+.ahorcado-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.ahorcado-letras {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.ahorcado-letras p {
+    margin: 0 5px;
+    font-size: 18px;
+}
+
+.ahorcado-input {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ahorcado-input input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.ahorcado-input button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.ahorcado-debug {
+    background-color: black;
+    color: greenyellow;
+    font-family: 'Courier New', Courier, monospace;
+}

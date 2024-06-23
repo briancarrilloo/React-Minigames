@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Ahorcado from "./components/Ahorcado/Ahorcado.js";
+import GameSelector from "./components/GameSelector/GameSelector.js";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+const RouteMap = [
+  {
+    "path": "",
+    "component": <GameSelector />
+  },
+  {
+    "path": "/ahorcado",
+    "component": <Ahorcado />
+  }
+];
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          {RouteMap.map((x, index) => (<Route key={index} path={x.path} element={React.cloneElement(x.component)} />))}
+        </Routes>
+      </Router>
     </div>
   );
 }
