@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { BsArrowLeft, BsArrowRepeat } from 'react-icons/bs';
+import ContainerHeader from '../Library/Container';
 import WinLose from '../WinLose/WinLose';
 import './Ahorcado.css';
 import wordDatabase from "./wordDatabase.json";
@@ -19,6 +18,7 @@ const Ahorcado = () => {
     const [incorrect, setIncorrect] = useState(0);
     const [gameFinished, setGameFinished] = useState(false);
 
+    const gameName = "El juego del ahorcado";
     const winMessage = "¡Has ganado!";
     const loseMessage = "Has perdido...";
 
@@ -126,39 +126,10 @@ const Ahorcado = () => {
         }
     }
 
-    function renderWord() {
-        if (gameFinished) {
-            return (
-                <div className="ahorcado-letras">
-                    <p>La palabra era:</p>
-                    {currentWordArray.map((letter, index) => (
-                        <p key={index}>{letter}</p>
-                    ))}
-                </div>
-            );
-        } else {
-            return (
-                <div className="ahorcado-letras">
-                    {currentWordArray.map((letter, index) => (
-                        <p key={index}>{letter}</p>
-                    ))}
-                </div>
-            );
-        }
-    }
-
     return (
         <div className="container ahorcado-container">
             {gameFinished && <WinLose isWin={incorrect < 5} winMessage={winMessage} loseMessage={loseMessage} restartGame={initComponent} />}
-            <div className="container-header">
-                <Link to={"/"} className="btn button btn-dark d-flex align-items-center">
-                    <BsArrowLeft className="arrow-icon" />
-                </Link>
-                <button className="btn btn-dark last-button d-flex align-items-center" onClick={initComponent}>
-                    <BsArrowRepeat className="refresh-icon" />
-                </button>
-                <h1>El juego del ahorcado</h1>
-            </div>
+            <ContainerHeader title={gameName} restartGame={initComponent} />
             {renderImage()}
             {!gameFinished &&
                 <div className="ahorcado-letras">
