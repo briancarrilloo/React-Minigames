@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
+import WinLose from '../WinLose/WinLose';
 import './Ahorcado.css';
 import wordDatabase from "./wordDatabase.json";
-import zeroIncorrect from "./img/0.png"
-import oneIncorrect from "./img/1.png"
-import twoIncorrect from "./img/2.png"
-import threeIncorrect from "./img/3.png"
-import fourIncorrect from "./img/4.png"
-import fiveIncorrect from "./img/5.png"
+import zeroIncorrect from "./img/0.png";
+import oneIncorrect from "./img/1.png";
+import twoIncorrect from "./img/2.png";
+import threeIncorrect from "./img/3.png";
+import fourIncorrect from "./img/4.png";
+import fiveIncorrect from "./img/5.png";
 
 const Ahorcado = () => {
     const [currentWord, setCurrentWord] = useState('');
@@ -18,8 +19,11 @@ const Ahorcado = () => {
     const [incorrect, setIncorrect] = useState(0);
     const [gameFinished, setGameFinished] = useState(false);
 
+    const winMessage = "¡Has ganado!";
+    const loseMessage = "Has perdido...";
+
     useEffect(() => {
-        initComponent()
+        initComponent();
     }, []);
 
     function initComponent() {
@@ -28,6 +32,7 @@ const Ahorcado = () => {
         refreshWordArray(randomWord);
         setRevealedLetters([]);
         setGameFinished(false);
+        setIncorrect(0); // Reset incorrect guesses
     }
 
     function refreshWordArray(word) {
@@ -62,7 +67,7 @@ const Ahorcado = () => {
     }
 
     function isLetter(string) {
-        if (string.toLowerCase() == "ñ") {
+        if (string.toLowerCase() === "ñ") {
             return true;
         }
         return /^[a-zA-Z]*$/.test(string);
@@ -74,12 +79,11 @@ const Ahorcado = () => {
         if (!revealedLetters.includes(newLetter)) {
             setRevealedLetters(prevRevealedLetters => [...prevRevealedLetters, newLetter]);
             if (!currentWord.includes(newLetter)) {
-                setIncorrect(incorrect + 1);
+                setIncorrect(prevIncorrect => prevIncorrect + 1);
             }
         }
-
         setInputValue('');
-    };
+    }
 
     useEffect(() => {
         CheckGameStatus();
@@ -88,17 +92,12 @@ const Ahorcado = () => {
     function CheckGameStatus() {
         // Losing
         if (incorrect >= 5) {
-            alert('Has perdido...');
             setGameFinished(true);
         }
 
         // Winning
         const currentWordString = currentWordArray.join('');
-        if (currentWord === null || currentWord === undefined || currentWord == '') {
-            return;
-        }
-        if (currentWord == currentWordString) {
-            alert('Has ganado!');
+        if (currentWord && currentWord === currentWordString) {
             setGameFinished(true);
         }
     }
@@ -111,24 +110,25 @@ const Ahorcado = () => {
         const imgAlt = "Imagen del juego del ahorcado";
         switch (incorrect) {
             case 0:
-                return <img src={zeroIncorrect} alt={imgAlt} />
+                return <img src={zeroIncorrect} alt={imgAlt} />;
             case 1:
-                return <img src={oneIncorrect} alt={imgAlt} />
+                return <img src={oneIncorrect} alt={imgAlt} />;
             case 2:
-                return <img src={twoIncorrect} alt={imgAlt} />
+                return <img src={twoIncorrect} alt={imgAlt} />;
             case 3:
-                return <img src={threeIncorrect} alt={imgAlt} />
+                return <img src={threeIncorrect} alt={imgAlt} />;
             case 4:
-                return <img src={fourIncorrect} alt={imgAlt} />
+                return <img src={fourIncorrect} alt={imgAlt} />;
             case 5:
-                return <img src={fiveIncorrect} alt={imgAlt} />
+                return <img src={fiveIncorrect} alt={imgAlt} />;
             default:
-                return <img src={fiveIncorrect} alt={imgAlt} />
+                return <img src={fiveIncorrect} alt={imgAlt} />;
         }
     }
 
     return (
         <div className="container ahorcado-container">
+            {gameFinished && <WinLose isWin={incorrect < 5} winMessage={winMessage} loseMessage={loseMessage} restartGame={initComponent} />}
             <div className="container-header">
                 <Link to={"/"} className="btn btn-dark quit-button d-flex align-items-center">
                     <BsArrowLeft className="arrow-icon" />
@@ -153,19 +153,19 @@ const Ahorcado = () => {
                     <button className="btn btn-primary" type="submit" disabled={gameFinished}>Enviar</button>
                 </div>
             </form>
-            <p>Letras intentadas: {revealedLetters}</p>
+            <p>Letras intentadas: {revealedLetters.join(', ')}</p>
 
             {/* debug */}
-            {/* <div className='ahorcado-debug'>
+            <div className='ahorcado-debug'>
                 <p> - - - - Debug - - - - </p>
                 <p>currentWord: {currentWord}</p>
-                <p>currentWordArray: {currentWordArray}</p>
-                <p>revealedLetters: {revealedLetters}</p>
+                <p>currentWordArray: {currentWordArray.join('')}</p>
+                <p>revealedLetters: {revealedLetters.join(', ')}</p>
                 <p>incorrect: {incorrect}</p>
-            </div> */}
+                <p>gameFinished: {gameFinished ? "Yes" : "No"}</p>
+            </div>
         </div>
-
     );
 };
 
-export default Ahorcado; 
+export default Ahorcado;
