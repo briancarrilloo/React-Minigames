@@ -1,0 +1,17 @@
+/* EmojiMovible.css */
+.emoji-movible {
+    position: fixed;
+    font-size: 2rem;
+    z-index: 10000;
+    animation: moveEmoji 4s ease-in-out infinite alternate;
+}
+
+@keyframes moveEmoji {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(50px, 50px);
+    }
+}
