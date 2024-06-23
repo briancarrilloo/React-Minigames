@@ -126,6 +126,27 @@ const Ahorcado = () => {
         }
     }
 
+    function renderWord() {
+        if (gameFinished) {
+            return (
+                <div className="ahorcado-letras">
+                    <p>La palabra era:</p>
+                    {currentWordArray.map((letter, index) => (
+                        <p key={index}>{letter}</p>
+                    ))}
+                </div>
+            );
+        } else {
+            return (
+                <div className="ahorcado-letras">
+                    {currentWordArray.map((letter, index) => (
+                        <p key={index}>{letter}</p>
+                    ))}
+                </div>
+            );
+        }
+    }
+
     return (
         <div className="container ahorcado-container">
             {gameFinished && <WinLose isWin={incorrect < 5} winMessage={winMessage} loseMessage={loseMessage} restartGame={initComponent} />}
@@ -139,11 +160,19 @@ const Ahorcado = () => {
                 <h1>El juego del ahorcado</h1>
             </div>
             {renderImage()}
-            <div className="ahorcado-letras">
-                {currentWordArray.map((letter, index) => (
-                    <p key={index}>{letter}</p>
-                ))}
-            </div>
+            {!gameFinished &&
+                <div className="ahorcado-letras">
+                    {currentWordArray.map((letter, index) => (
+                        <p key={index}>{letter}</p>
+                    ))}
+                </div>
+            }
+            {gameFinished &&
+                <div className="ahorcado-letras">
+                    <p>La palabra era:</p>
+                    <p>{currentWord}</p>
+                </div>
+            }
             <form onSubmit={handleSubmit}>
                 <div className="ahorcado-input">
                     <input
@@ -159,14 +188,14 @@ const Ahorcado = () => {
             <p>Letras intentadas: {revealedLetters.join(', ')}</p>
 
             {/* debug */}
-            {/* <div className='ahorcado-debug'>
+            <div className='ahorcado-debug'>
                 <p> - - - - Debug - - - - </p>
                 <p>currentWord: {currentWord}</p>
-                <p>currentWordArray: {currentWordArray.join('')}</p>
+                <p>currentWordArray: {currentWordArray.join(', ')}</p>
                 <p>revealedLetters: {revealedLetters.join(', ')}</p>
                 <p>incorrect: {incorrect}</p>
                 <p>gameFinished: {gameFinished ? "Yes" : "No"}</p>
-            </div> */}
+            </div>
         </div>
     );
 };
