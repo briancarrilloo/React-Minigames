@@ -2,6 +2,7 @@ import React from 'react';
 import './GameSelector.css'
 import '../Library/Container.css'
 import AhorcadoLogo from '../Ahorcado/img/Logo.jpg';
+import SudokuLogo from '../Sudoku/img/Logo.png'
 import { Link } from 'react-router-dom';
 
 const GameMap = [
@@ -13,7 +14,7 @@ const GameMap = [
     {
         "name": "Sudoku",
         "path": "/sudoku",
-        "logo": AhorcadoLogo
+        "logo": SudokuLogo
     }
 ];
 
