@@ -186,9 +186,22 @@ const Sudoku = () => {
         return (<div
             className={cssClass}
             key={cellIndex}
-            contentEditable={cellEditable}>
+            contentEditable={cellEditable}
+            suppressContentEditableWarning={true}
+            onInput={(e) => handleInputChange(e, rowIndex, cellIndex)}
+        >
             {cell != 0 && cell}
         </div>);
+    }
+
+    function handleInputChange(event, rowIndex, cellIndex) {
+        let input = parseInt(event.target.innerText) || 0;
+        console.log(input);
+        setVisibleSudoku(prev => {
+            const newMatrix = prev.map(row => [...row]);
+            newMatrix[rowIndex][cellIndex] = input;
+            return newMatrix;
+        });
     }
 
     function getRandom(min, max) {

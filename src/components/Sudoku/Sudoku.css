@@ -32,13 +32,13 @@
     color: black;
 }
 
+.enabled:hover {
+    background-color: rgb(190, 190, 190);
+}
+
 .disabled {
     background-color: rgb(215, 215, 215);
     color: rgb(74, 74, 74);
-}
-
-.sudoku-cell:hover {
-    background-color: rgb(190, 190, 190);
 }
 
 .sudoku-cell:nth-child(3n) {
