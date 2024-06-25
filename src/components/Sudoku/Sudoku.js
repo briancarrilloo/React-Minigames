@@ -12,9 +12,9 @@ const Sudoku = () => {
     const [gameFinished, setGameFinished] = useState(false);
     const [sudoku, setSudoku] = useState([]);
 
-    // useEffect(() => {
-    //     initComponent();
-    // }, []);
+    useEffect(() => {
+        initComponent();
+    }, []);
 
     function initComponent() {
         let emptyMatrix = generateStructure();
@@ -24,13 +24,17 @@ const Sudoku = () => {
     function generateSudoku(matrix) {
         let [emRow, emCell] = findEmptyCell(matrix);
         if (emRow === null) {
-            console.log(matrix);
+            // console.log(matrix);
             setSudoku(matrix)
             return true;
         }
 
-        for (let number = 1; number <= 9; number++) {
-            // TODO: Randomize number selection
+        let initialNumber = Math.floor(Math.random() * (9 - 1 + 1)) + 1;
+        let number = initialNumber;
+        for (let i = 0; i < 10; i++) {
+            if (number > 9) {
+                number = 1;
+            }
             if (isNumberValid(number, matrix, emRow, emCell)) {
                 matrix[emRow][emCell] = number;
 
@@ -73,12 +77,10 @@ const Sudoku = () => {
 
 
     function isNumberValid(number, matrix, row, col) {
-        console.log(`Validating ${number} at ${row},${col}`);
         // Row does not contain number
         for (let x = 0; x < matrix[row].length; x++) {
             const cell = matrix[row][x];
             if (cell === number) {
-                console.log('Found at row');
                 return false;
             }
         }
@@ -86,7 +88,6 @@ const Sudoku = () => {
         for (let y = 0; y < matrix[col].length; y++) {
             const cell = matrix[y][col];
             if (cell === number) {
-                console.log('Found at col');
                 return false;
             }
         }
@@ -99,19 +100,16 @@ const Sudoku = () => {
     }
 
     function temporaryValidateSubgrid(number, matrix, row, col) {
-        console.log('Temporary Subgrid validation');
         let startSubgridY = Math.floor(row / 3) * 3;
         let endSubgridY = startSubgridY + 3;
         let startSubgridX = Math.floor(col / 3) * 3;
         let endSubgridX = startSubgridX + 3;
 
         for (let y = startSubgridY; y < endSubgridY; y++) {
-            console.log('Check subgrid row: ' + y);
             for (let x = startSubgridX; x < endSubgridX; x++) {
                 const element = matrix[y][x];
-                console.log('Check subgrid column: ' + x);
                 if (matrix[y][x] === number) {
-                    console.log(`Found number ${number} at ${y},${x}`);
+                    // console.log(`Found number ${number} at ${y},${x}`);
                     return false;
                 }
             }
@@ -128,7 +126,6 @@ const Sudoku = () => {
         <div className="container sudoku-container">
             {gameFinished && <WinLose isWin={true} winMessage={winMessage} loseMessage={loseMessage} restartGame={initComponent} />}
             <ContainerHeader title={gameName} restartGame={initComponent} />
-            <button type="button" className="btn btn-primary" onClick={initComponent}>initComponent()</button>
             <div className='sudoku'>
                 {sudoku.length > 0 && sudoku.map((row, rowIndex) => (
                     <div className="sudoku-row" key={rowIndex}>
