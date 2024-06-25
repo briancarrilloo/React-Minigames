@@ -24,6 +24,7 @@ const Sudoku = () => {
     function generateSudoku(matrix) {
         let [emRow, emCell] = findEmptyCell(matrix);
         if (emRow === null) {
+            console.log(matrix);
             setSudoku(matrix)
             return true;
         }
@@ -31,7 +32,6 @@ const Sudoku = () => {
         for (let number = 1; number <= 9; number++) {
             // TODO: Randomize number selection
             if (isNumberValid(number, matrix, emRow, emCell)) {
-                console.log("Valid: " + number + emRow + emCell);
                 matrix[emRow][emCell] = number;
 
                 if (generateSudoku(matrix)) {
@@ -73,10 +73,12 @@ const Sudoku = () => {
 
 
     function isNumberValid(number, matrix, row, col) {
+        console.log(`Validating ${number} at ${row},${col}`);
         // Row does not contain number
         for (let x = 0; x < matrix[row].length; x++) {
             const cell = matrix[row][x];
             if (cell === number) {
+                console.log('Found at row');
                 return false;
             }
         }
@@ -84,12 +86,42 @@ const Sudoku = () => {
         for (let y = 0; y < matrix[col].length; y++) {
             const cell = matrix[y][col];
             if (cell === number) {
+                console.log('Found at col');
                 return false;
             }
         }
         // 3x3 grid does not contain number
-        // TODO
+        if (!temporaryValidateSubgrid(number, matrix, row, col)) {
+            return false;
+        }
+
         return true;
+    }
+
+    function temporaryValidateSubgrid(number, matrix, row, col) {
+        console.log('Temporary Subgrid validation');
+        let startSubgridY = Math.floor(row / 3) * 3;
+        let endSubgridY = startSubgridY + 3;
+        let startSubgridX = Math.floor(col / 3) * 3;
+        let endSubgridX = startSubgridX + 3;
+
+        for (let y = startSubgridY; y < endSubgridY; y++) {
+            console.log('Check subgrid row: ' + y);
+            for (let x = startSubgridX; x < endSubgridX; x++) {
+                const element = matrix[y][x];
+                console.log('Check subgrid column: ' + x);
+                if (matrix[y][x] === number) {
+                    console.log(`Found number ${number} at ${y},${x}`);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    function handleCellClick(number, row, col) {
+        temporaryValidateSubgrid(number, sudoku, row, col);
     }
 
     return (
@@ -101,7 +133,7 @@ const Sudoku = () => {
                 {sudoku.length > 0 && sudoku.map((row, rowIndex) => (
                     <div className="sudoku-row" key={rowIndex}>
                         {row.map((cell, cellIndex) => (
-                            <div className="sudoku-cell" key={cellIndex}>{cell}</div>
+                            <button className="sudoku-cell" key={cellIndex} onClick={() => handleCellClick(cell, rowIndex, cellIndex)}>{cell}</button>
                         ))}
                     </div>
                 ))}
