@@ -11,13 +11,15 @@ const Sudoku = () => {
     const width = 9;
     const [gameFinished, setGameFinished] = useState(false);
     const [sudoku, setSudoku] = useState([]);
+    const [visibleSudoku, setVisibleSudoku] = useState([]);
+    const [enabledMap, setEnabledMap] = useState([]);
 
     useEffect(() => {
         initComponent();
     }, []);
 
     function initComponent() {
-        let emptyMatrix = generateStructure();
+        let emptyMatrix = generateStructure(0);
         generateSudoku(emptyMatrix);
     }
 
@@ -25,11 +27,12 @@ const Sudoku = () => {
         let [emRow, emCell] = findEmptyCell(matrix);
         if (emRow === null) {
             // console.log(matrix);
-            setSudoku(matrix)
+            setSudoku(matrix);
+            setVisibleSudoku(hideSudoku(matrix));
             return true;
         }
 
-        let initialNumber = Math.floor(Math.random() * (9 - 1 + 1)) + 1;
+        let initialNumber = getRandom(1, 9);
         let number = initialNumber;
         for (let i = 0; i < 10; i++) {
             if (number > 9) {
@@ -49,12 +52,12 @@ const Sudoku = () => {
         return false;
     }
 
-    function generateStructure() {
+    function generateStructure(content) {
         let matrix = [];
         for (let y = 0; y < height; y++) {
             let emptyRow = [];
             for (let x = 0; x < width; x++) {
-                emptyRow.push(0);
+                emptyRow.push(content);
             }
             matrix.push(emptyRow);
         }
@@ -122,29 +125,86 @@ const Sudoku = () => {
         temporaryValidateSubgrid(number, sudoku, row, col);
     }
 
+    function hideSudoku(matrix) {
+        const hiddenCells = 35;
+        const auxEnabledMap = generateStructure(false);
+        const clonedMatrix = matrix.map(row => [...row]);
+
+        let attempts = 0;
+        while (attempts < hiddenCells) {
+            let y = getRandom(0, 8);
+            let x = getRandom(0, 8);
+            if (clonedMatrix[y][x] !== 0) {
+                let backup = clonedMatrix[y][x];
+                clonedMatrix[y][x] = 0;
+                if (hasUniqueSolution(clonedMatrix)) {
+                    auxEnabledMap[y][x] = true;
+                    attempts++;
+                } else {
+                    clonedMatrix[y][x] = backup;
+                }
+            }
+        }
+
+        setEnabledMap(auxEnabledMap);
+        return clonedMatrix;
+    }
+
+    function hasUniqueSolution(matrix) {
+        let solutionCount = 0;
+        function solve(matrix) {
+            let [row, col] = findEmptyCell(matrix);
+            if (row === null) {
+                solutionCount++;
+                return solutionCount === 1;
+            }
+
+            for (let num = 1; num <= 9; num++) {
+                if (isNumberValid(num, matrix, row, col)) {
+                    matrix[row][col] = num;
+                    if (solve(matrix)) return true;
+                    matrix[row][col] = 0;
+                }
+            }
+            return false;
+        }
+
+        let clonedMatrix = matrix.map(row => [...row]);
+        solve(clonedMatrix);
+        return solutionCount === 1;
+    }
+
+
+
+    function getRandom(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     return (
         <div className="container sudoku-container">
             {gameFinished && <WinLose isWin={true} winMessage={winMessage} loseMessage={loseMessage} restartGame={initComponent} />}
             <ContainerHeader title={gameName} restartGame={initComponent} />
             <div className='sudoku'>
-                {sudoku.length > 0 && sudoku.map((row, rowIndex) => (
+                {visibleSudoku.length > 0 && visibleSudoku.map((row, rowIndex) => (
                     <div className="sudoku-row" key={rowIndex}>
                         {row.map((cell, cellIndex) => (
-                            <button className="sudoku-cell" key={cellIndex} onClick={() => handleCellClick(cell, rowIndex, cellIndex)}>{cell}</button>
+                            <button className="sudoku-cell" key={cellIndex} onClick={() => handleCellClick(cell, rowIndex, cellIndex)}>{cell != 0 && cell}</button>
                         ))}
                     </div>
                 ))}
             </div>
 
             {/* debug */}
-            {/* <div className='sudoku-debug'>
+            <div className='sudoku sudoku-debug'>
                 <p> - - - - Debug - - - - </p>
-                <p>currentWord: {currentWord}</p>
-                <p>currentWordArray: {currentWordArray.join(', ')}</p>
-                <p>revealedLetters: {revealedLetters.join(', ')}</p>
-                <p>incorrect: {incorrect}</p>
-                <p>gameFinished: {gameFinished ? "Yes" : "No"}</p>
-            </div> */}
+                {sudoku.length > 0 && sudoku.map((row, rowIndex) => (
+                    <div className="sudoku-row" key={rowIndex}>
+                        {row.map((cell, cellIndex) => (
+                            <button className="sudoku-cell" key={cellIndex} onClick={() => handleCellClick(cell, rowIndex, cellIndex)}>{cell != 0 && cell}</button>
+                        ))}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
