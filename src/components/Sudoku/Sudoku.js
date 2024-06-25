@@ -174,7 +174,22 @@ const Sudoku = () => {
         return solutionCount === 1;
     }
 
+    function getCellHTML(rowIndex, cellIndex, cell) {
+        let cssClass = "sudoku-cell";
+        const cellEditable = enabledMap[rowIndex][cellIndex];
+        if (cellEditable) {
+            cssClass += " enabled";
+        } else {
+            cssClass += " disabled";
+        }
 
+        return (<div
+            className={cssClass}
+            key={cellIndex}
+            contentEditable={cellEditable}>
+            {cell != 0 && cell}
+        </div>);
+    }
 
     function getRandom(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -188,7 +203,7 @@ const Sudoku = () => {
                 {visibleSudoku.length > 0 && visibleSudoku.map((row, rowIndex) => (
                     <div className="sudoku-row" key={rowIndex}>
                         {row.map((cell, cellIndex) => (
-                            <button className="sudoku-cell" key={cellIndex} onClick={() => handleCellClick(cell, rowIndex, cellIndex)}>{cell != 0 && cell}</button>
+                            getCellHTML(rowIndex, cellIndex, cell)
                         ))}
                     </div>
                 ))}
