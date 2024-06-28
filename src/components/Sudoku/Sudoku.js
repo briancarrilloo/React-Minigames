@@ -195,14 +195,23 @@ const Sudoku = () => {
     }
 
     function handleInputChange(event, rowIndex, cellIndex) {
-        let input = parseInt(event.target.innerText) || 0;
-        console.log(input);
+        let input = event.target.innerText.trim();
+        let numericInput = parseInt(input, 10);
+
+        if (isNaN(numericInput) || numericInput < 1 || numericInput > 9) {
+            event.target.innerText = '';
+            numericInput = '';
+        } else {
+            event.target.innerText = numericInput;
+        }
+
         setVisibleSudoku(prev => {
             const newMatrix = prev.map(row => [...row]);
-            newMatrix[rowIndex][cellIndex] = input;
+            newMatrix[rowIndex][cellIndex] = numericInput;
             return newMatrix;
         });
     }
+
 
     function getRandom(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
