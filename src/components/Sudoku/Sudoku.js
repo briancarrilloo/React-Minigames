@@ -13,6 +13,7 @@ const Sudoku = () => {
     const [sudoku, setSudoku] = useState([]);
     const [visibleSudoku, setVisibleSudoku] = useState([]);
     const [enabledMap, setEnabledMap] = useState([]);
+    const [completed, setCompleted] = useState(false);
 
     useEffect(() => {
         initComponent();
@@ -21,6 +22,7 @@ const Sudoku = () => {
     function initComponent() {
         let emptyMatrix = generateStructure(0);
         generateSudoku(emptyMatrix);
+        setCompleted(false);
     }
 
     function generateSudoku(matrix) {
@@ -94,15 +96,8 @@ const Sudoku = () => {
                 return false;
             }
         }
-        // 3x3 grid does not contain number
-        if (!temporaryValidateSubgrid(number, matrix, row, col)) {
-            return false;
-        }
 
-        return true;
-    }
-
-    function temporaryValidateSubgrid(number, matrix, row, col) {
+        // 3x3 subgrid does not contain number
         let startSubgridY = Math.floor(row / 3) * 3;
         let endSubgridY = startSubgridY + 3;
         let startSubgridX = Math.floor(col / 3) * 3;
@@ -112,17 +107,12 @@ const Sudoku = () => {
             for (let x = startSubgridX; x < endSubgridX; x++) {
                 const element = matrix[y][x];
                 if (matrix[y][x] === number) {
-                    // console.log(`Found number ${number} at ${y},${x}`);
                     return false;
                 }
             }
         }
 
         return true;
-    }
-
-    function handleCellClick(number, row, col) {
-        temporaryValidateSubgrid(number, sudoku, row, col);
     }
 
     function hideSudoku(matrix) {
@@ -212,9 +202,12 @@ const Sudoku = () => {
         });
     }
 
-
     function getRandom(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function validateSudoku() {
+
     }
 
     return (
@@ -230,6 +223,7 @@ const Sudoku = () => {
                     </div>
                 ))}
             </div>
+            <button class="btn btn-success" onClick={validateSudoku} disabled={!completed}>Finalizar</button>
 
             {/* debug */}
             <div className='sudoku sudoku-debug'>
