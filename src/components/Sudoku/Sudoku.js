@@ -80,7 +80,6 @@ const Sudoku = () => {
         return [null, null];
     }
 
-
     function isNumberValid(number, matrix, row, col) {
         // Row does not contain number
         for (let x = 0; x < matrix[row].length; x++) {
@@ -196,11 +195,28 @@ const Sudoku = () => {
             event.target.innerText = numericInput;
         }
 
+        let newMatrix = [];
         setVisibleSudoku(prev => {
-            const newMatrix = prev.map(row => [...row]);
+            newMatrix = prev.map(row => [...row]);
             newMatrix[rowIndex][cellIndex] = event.target.innerText;
             return newMatrix;
         });
+
+    }
+
+    useEffect(() => {
+        console.log('Updated visible');
+        setCompleted(isSudokuCompleted(visibleSudoku))
+    }, visibleSudoku);
+
+    function isSudokuCompleted(matrix) {
+        for (let y = 0; y < matrix.length; y++) {
+            const row = matrix[y];
+            if (row.includes(0) || row.includes('')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     function getRandom(min, max) {
@@ -208,7 +224,13 @@ const Sudoku = () => {
     }
 
     function validateSudoku() {
+        console.log('Validating sudoku');
+        // TODO
+    }
 
+    function debugResolve() {
+        setVisibleSudoku(sudoku);
+        setCompleted(true);
     }
 
     return (
@@ -229,6 +251,7 @@ const Sudoku = () => {
             {/* debug */}
             <div className='sudoku sudoku-debug'>
                 <p> - - - - Debug - - - - </p>
+                <button type="button" class="btn btn-outline-success" onClick={debugResolve}>Debug resolve</button>
                 {sudoku.length > 0 && sudoku.map((row, rowIndex) => (
                     <div className="sudoku-row" key={rowIndex}>
                         {row.map((cell, cellIndex) => (
