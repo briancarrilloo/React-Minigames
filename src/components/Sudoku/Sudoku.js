@@ -22,12 +22,14 @@ const Sudoku = () => {
     }, []);
 
     function initComponent() {
-        let emptyMatrix = generateStructure(0);
-        generateSudoku(emptyMatrix);
         setCompleted(false);
         setGameFinished(false);
         setIsCorrect(false);
+        setSudoku([]);
+        setVisibleSudoku([]);
+        setEnabledMap(generateStructure(false));
         setIncorrectMap(generateStructure(false));
+        generateSudoku(generateStructure(0));
     }
 
     function generateSudoku(matrix) {
@@ -241,7 +243,7 @@ const Sudoku = () => {
             let visibleRow = visibleSudoku[y];
             for (let x = 0; x < visibleRow.length; x++) {
                 let cell = visibleRow[x];
-                if (cell !== sudoku[y][x]) {
+                if (cell != sudoku[y][x]) {
                     incorrectMapAux[y][x] = true;
                     hasError = true;
                 }
