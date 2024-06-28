@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ContainerHeader from "../Library/Container";
 import WinLose from "../WinLose/WinLose";
-import './Sudoku.css'
+import './Sudoku.css';
 
 const Sudoku = () => {
     const gameName = "Sudoku";
@@ -33,7 +33,6 @@ const Sudoku = () => {
     function generateSudoku(matrix) {
         let [emRow, emCell] = findEmptyCell(matrix);
         if (emRow === null) {
-            // console.log(matrix);
             setSudoku(matrix);
             setVisibleSudoku(hideSudoku(matrix));
             return true;
@@ -86,22 +85,20 @@ const Sudoku = () => {
     }
 
     function isNumberValid(number, matrix, row, col) {
-        // Row does not contain number
         for (let x = 0; x < matrix[row].length; x++) {
             const cell = matrix[row][x];
             if (cell === number) {
                 return false;
             }
         }
-        // Col does not contain number
-        for (let y = 0; y < matrix[col].length; y++) {
+
+        for (let y = 0; y < matrix.length; y++) {
             const cell = matrix[y][col];
             if (cell === number) {
                 return false;
             }
         }
 
-        // 3x3 subgrid does not contain number
         let startSubgridY = Math.floor(row / 3) * 3;
         let endSubgridY = startSubgridY + 3;
         let startSubgridX = Math.floor(col / 3) * 3;
@@ -110,7 +107,7 @@ const Sudoku = () => {
         for (let y = startSubgridY; y < endSubgridY; y++) {
             for (let x = startSubgridX; x < endSubgridX; x++) {
                 const element = matrix[y][x];
-                if (matrix[y][x] === number) {
+                if (element === number) {
                     return false;
                 }
             }
@@ -181,15 +178,17 @@ const Sudoku = () => {
             cssClass += " incorrect";
         }
 
-        return (<div
-            className={cssClass}
-            key={cellIndex}
-            contentEditable={cellEditable}
-            suppressContentEditableWarning={true}
-            onInput={(e) => handleInputChange(e, rowIndex, cellIndex)}
-        >
-            {cell != 0 && cell}
-        </div>);
+        return (
+            <div
+                className={cssClass}
+                key={cellIndex}
+                contentEditable={cellEditable}
+                suppressContentEditableWarning={true}
+                onInput={(e) => handleInputChange(e, rowIndex, cellIndex)}
+            >
+                {cell !== 0 && cell}
+            </div>
+        );
     }
 
     function handleInputChange(event, rowIndex, cellIndex) {
@@ -209,17 +208,17 @@ const Sudoku = () => {
             newMatrix[rowIndex][cellIndex] = event.target.innerText;
             return newMatrix;
         });
+
         setIncorrectMap(prev => {
             const newMatrix = prev.map(row => [...row]);
             newMatrix[rowIndex][cellIndex] = false;
             return newMatrix;
-        })
+        });
     }
 
     useEffect(() => {
-        console.log('Updated visible');
-        setCompleted(isSudokuCompleted(visibleSudoku))
-    }, visibleSudoku);
+        setCompleted(isSudokuCompleted(visibleSudoku));
+    }, [visibleSudoku]);
 
     function isSudokuCompleted(matrix) {
         for (let y = 0; y < matrix.length; y++) {
@@ -242,7 +241,7 @@ const Sudoku = () => {
             let visibleRow = visibleSudoku[y];
             for (let x = 0; x < visibleRow.length; x++) {
                 let cell = visibleRow[x];
-                if (cell != sudoku[y][x]) {
+                if (cell !== sudoku[y][x]) {
                     incorrectMapAux[y][x] = true;
                     hasError = true;
                 }
@@ -272,16 +271,16 @@ const Sudoku = () => {
                     </div>
                 ))}
             </div>
-            <button class="btn btn-success" onClick={validateSudoku} disabled={!completed}>Finalizar</button>
+            <button className="btn btn-success" onClick={validateSudoku} disabled={!completed}>Finalizar</button>
 
             {/* debug */}
             <div className='sudoku sudoku-debug'>
                 <p> - - - - Debug - - - - </p>
-                <button type="button" class="btn btn-outline-success" onClick={debugResolve}>Debug resolve</button>
+                <button type="button" className="btn btn-outline-success" onClick={debugResolve}>Debug resolve</button>
                 {sudoku.length > 0 && sudoku.map((row, rowIndex) => (
                     <div className="sudoku-row" key={rowIndex}>
                         {row.map((cell, cellIndex) => (
-                            <button className="sudoku-cell" key={cellIndex} >{cell != 0 && cell}</button>
+                            <button className="sudoku-cell" key={cellIndex}>{cell !== 0 && cell}</button>
                         ))}
                     </div>
                 ))}
