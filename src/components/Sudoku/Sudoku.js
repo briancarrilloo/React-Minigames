@@ -188,16 +188,17 @@ const Sudoku = () => {
         let input = event.target.innerText.trim();
         let numericInput = parseInt(input, 10);
 
-        if (isNaN(numericInput) || numericInput < 1 || numericInput > 9) {
+        if (isNaN(numericInput) || numericInput < 1 || input.slice(0, 1) === '0') {
             event.target.innerText = '';
-            numericInput = '';
+        } else if (numericInput > 9) {
+            event.target.innerText = Math.floor(numericInput / 10);
         } else {
             event.target.innerText = numericInput;
         }
 
         setVisibleSudoku(prev => {
             const newMatrix = prev.map(row => [...row]);
-            newMatrix[rowIndex][cellIndex] = numericInput;
+            newMatrix[rowIndex][cellIndex] = event.target.innerText;
             return newMatrix;
         });
     }
@@ -231,7 +232,7 @@ const Sudoku = () => {
                 {sudoku.length > 0 && sudoku.map((row, rowIndex) => (
                     <div className="sudoku-row" key={rowIndex}>
                         {row.map((cell, cellIndex) => (
-                            <button className="sudoku-cell" key={cellIndex} onClick={() => handleCellClick(cell, rowIndex, cellIndex)}>{cell != 0 && cell}</button>
+                            <button className="sudoku-cell" key={cellIndex} >{cell != 0 && cell}</button>
                         ))}
                     </div>
                 ))}
