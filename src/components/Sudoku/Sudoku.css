@@ -36,6 +36,14 @@
     background-color: rgb(190, 190, 190);
 }
 
+.incorrect {
+    background-color: rgb(255, 195, 195);
+}
+
+.incorrect:hover {
+    background-color: rgb(223, 137, 137);
+}
+
 .disabled {
     background-color: rgb(215, 215, 215);
     color: rgb(74, 74, 74);

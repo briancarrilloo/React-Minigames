@@ -5,15 +5,17 @@ import './Sudoku.css'
 
 const Sudoku = () => {
     const gameName = "Sudoku";
-    const winMessage = "Sudoku";
-    const loseMessage = "Sudoku";
+    const winMessage = "¡Has ganado!";
+    const loseMessage = "Hay errores...";
     const height = 9;
     const width = 9;
     const [gameFinished, setGameFinished] = useState(false);
     const [sudoku, setSudoku] = useState([]);
     const [visibleSudoku, setVisibleSudoku] = useState([]);
     const [enabledMap, setEnabledMap] = useState([]);
+    const [incorrectMap, setIncorrectMap] = useState([]);
     const [completed, setCompleted] = useState(false);
+    const [isCorrect, setIsCorrect] = useState(false);
 
     useEffect(() => {
         initComponent();
@@ -23,6 +25,9 @@ const Sudoku = () => {
         let emptyMatrix = generateStructure(0);
         generateSudoku(emptyMatrix);
         setCompleted(false);
+        setGameFinished(false);
+        setIsCorrect(false);
+        setIncorrectMap(generateStructure(false));
     }
 
     function generateSudoku(matrix) {
@@ -171,6 +176,10 @@ const Sudoku = () => {
         } else {
             cssClass += " disabled";
         }
+        const cellIncorrect = incorrectMap[rowIndex][cellIndex];
+        if (cellIncorrect) {
+            cssClass += " incorrect";
+        }
 
         return (<div
             className={cssClass}
@@ -195,13 +204,16 @@ const Sudoku = () => {
             event.target.innerText = numericInput;
         }
 
-        let newMatrix = [];
         setVisibleSudoku(prev => {
-            newMatrix = prev.map(row => [...row]);
+            const newMatrix = prev.map(row => [...row]);
             newMatrix[rowIndex][cellIndex] = event.target.innerText;
             return newMatrix;
         });
-
+        setIncorrectMap(prev => {
+            const newMatrix = prev.map(row => [...row]);
+            newMatrix[rowIndex][cellIndex] = false;
+            return newMatrix;
+        })
     }
 
     useEffect(() => {
@@ -224,8 +236,22 @@ const Sudoku = () => {
     }
 
     function validateSudoku() {
-        console.log('Validating sudoku');
-        // TODO
+        let hasError = false;
+        let incorrectMapAux = generateStructure(false);
+        for (let y = 0; y < visibleSudoku.length; y++) {
+            let visibleRow = visibleSudoku[y];
+            for (let x = 0; x < visibleRow.length; x++) {
+                let cell = visibleRow[x];
+                if (cell != sudoku[y][x]) {
+                    incorrectMapAux[y][x] = true;
+                    hasError = true;
+                }
+            }
+        }
+
+        setIncorrectMap(incorrectMapAux);
+        setIsCorrect(!hasError);
+        setGameFinished(true);
     }
 
     function debugResolve() {
@@ -235,7 +261,7 @@ const Sudoku = () => {
 
     return (
         <div className="container sudoku-container">
-            {gameFinished && <WinLose isWin={true} winMessage={winMessage} loseMessage={loseMessage} restartGame={initComponent} />}
+            {gameFinished && <WinLose isWin={isCorrect} winMessage={winMessage} loseMessage={loseMessage} restartGame={initComponent} />}
             <ContainerHeader title={gameName} restartGame={initComponent} />
             <div className='sudoku'>
                 {visibleSudoku.length > 0 && visibleSudoku.map((row, rowIndex) => (
